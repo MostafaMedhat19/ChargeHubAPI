@@ -37,6 +37,12 @@ public class UserRepository : IUserRepository
         _context.Users
             .FirstOrDefaultAsync(u => u.Identecation == identecation, cancellationToken);
 
+    public Task<User?> GetNameByIdentecationAsync(string identecation, CancellationToken cancellationToken) =>
+    _context.Users
+     .FirstOrDefaultAsync(u => u.Identecation != null &&
+                               EF.Functions.Like(u.Identecation.Trim(), identecation.Trim()),
+                            cancellationToken);
+
     public async Task AddAsync(User user, CancellationToken cancellationToken)
     {
         await _context.Users.AddAsync(user, cancellationToken);

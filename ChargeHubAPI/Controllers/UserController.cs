@@ -2,6 +2,7 @@ using System.Security.Claims;
 using ChargeHubAPI.Application.Contracts.Requests;
 using ChargeHubAPI.Application.Contracts.Responses;
 using ChargeHubAPI.Application.Interfaces;
+using ChargeHubAPI.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -153,6 +154,22 @@ public class UserController : ControllerBase
     {
         var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
         return currentUserId is not null && string.Equals(currentUserId, userId, StringComparison.Ordinal);
+    }
+
+    [HttpGet("by-identecation/{identecation}")]
+    public async Task<IActionResult> GetNameByIdentecation(string identecation, CancellationToken cancellationToken)
+    {
+
+        var response = await _userService.GetNameByIdentecationAsync(identecation, cancellationToken);
+        if (response is null)
+        {
+            return NotFound(new StandardResponse
+            {
+                Success = false,
+                Message = "User not found"
+            });
+        }
+        return Ok(response);
     }
 }
 

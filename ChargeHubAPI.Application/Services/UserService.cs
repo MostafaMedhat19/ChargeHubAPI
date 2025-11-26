@@ -1,4 +1,4 @@
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using AutoMapper;
@@ -326,6 +326,25 @@ public class UserService : IUserService
         Success = false,
         Message = message
     };
+
+    public async Task<NameResponse?> GetNameByIdentecationAsync(string identecation, CancellationToken cancellationToken)
+    {
+        var user = await _repository.GetByIdentecationAsync(identecation, cancellationToken);
+
+        if (user is null)
+        {
+            return null;   
+        }
+
+        return new NameResponse
+        {
+            Success = true,
+            Message = "Name retrieved successfully",
+            Name = user.Name,
+            Username = user.Username
+        };
+    }
+
 
     private static string GenerateResetCode() => Random.Shared.Next(100000, 999999).ToString("D6");
 

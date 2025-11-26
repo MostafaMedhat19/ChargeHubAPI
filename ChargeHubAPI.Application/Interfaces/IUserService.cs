@@ -12,6 +12,7 @@ public interface IUserService
     Task<StandardResponse> UpdateStatusPositionAsync(UpdateStatusPositionRequest request, CancellationToken cancellationToken);
     Task<UserInfoResponse?> GetUserAsync(string userId, CancellationToken cancellationToken);
     Task<IdentecationResponse?> GetIdentecationAsync(string userId, CancellationToken cancellationToken);
+    Task<NameResponse?> GetNameByIdentecationAsync(string identecation, CancellationToken cancellationToken);
     Task<StandardResponse> DeleteUserAsync(string userId, CancellationToken cancellationToken);
     Task<StandardResponse> ForgotPasswordAsync(ForgotPasswordRequest request, CancellationToken cancellationToken);
     Task<StandardResponse> ResetPasswordAsync(ResetPasswordRequest request, CancellationToken cancellationToken);
